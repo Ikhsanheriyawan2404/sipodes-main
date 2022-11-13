@@ -27,8 +27,8 @@ class WisataController extends Controller
             'price' => 'required|max:255',
         ]);
 
-        if (!$validator->fails()) {
-            return response()->json(new ApiResource(400, false, $validator->errors), 400);
+        if ($validator->fails()) {
+            return response()->json(new ApiResource(400, false, $validator->errors()), 400);
         }
 
         try {
