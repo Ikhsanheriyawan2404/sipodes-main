@@ -16,13 +16,14 @@ use App\Http\Controllers\API\V1\WisataController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+
 });
 
 
 Route::prefix('v1')->group(function () {
-    Route::post('wisata', [WisataController::class, 'store']);
+    Route::apiResource('wisata', WisataController::class);
+
     Route::get('desa', [DesaController::class, 'index']);
     Route::post('desa', [DesaController::class, 'store']);
 });

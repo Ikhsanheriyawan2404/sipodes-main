@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            DesaSeeder::class,
+            // WisataSeeder::class,
             ProvincesSeeder::class,
             CitiesSeeder::class,
             DistrictsSeeder::class,

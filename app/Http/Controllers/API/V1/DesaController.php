@@ -9,7 +9,7 @@ class DesaController extends Controller
 {
     public function index()
     {
-        return response()->json(Desa::get(), 200);
+        return response()->json(Desa::with('desa')->get(), 200);
     }
 
     public function store()

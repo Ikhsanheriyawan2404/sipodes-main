@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravolt\Indonesia\Models\Village;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Wisata extends Model
 {
@@ -11,4 +12,9 @@ class Wisata extends Model
 
     protected $guarded = [];
     protected $table = 'wisata';
+
+    public function desa()
+    {
+        return $this->belongsTo(Village::class, 'code_desa', 'code');
+    }
 }
