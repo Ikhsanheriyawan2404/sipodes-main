@@ -21,6 +21,7 @@ class DesaSeeder extends Seeder
                 'code' => '320937200' . $i,
                 'district_code' => '320937',
                 'city_code' => '3209',
+                'url' => 'sipodes.com',
             ]);
         }
 
@@ -30,6 +31,7 @@ class DesaSeeder extends Seeder
                 'code' => '320631200' . $i,
                 'district_code' => '320631',
                 'city_code' => '3206',
+                'url' => 'sipodes.com',
             ]);
         }
 
@@ -39,12 +41,14 @@ class DesaSeeder extends Seeder
                 'code' => '321215100' . $i,
                 'district_code' => '321215',
                 'city_code' => '3212',
+                'url' => 'sipodes.com',
             ]);
         }
         Desa::create([
             'code' => '3212152009',
             'district_code' => '321215',
             'city_code' => '3212',
+            'url' => 'sipodes.com',
         ]);
 
         for($i = 0; $i <= 7; $i++) {
@@ -52,6 +56,7 @@ class DesaSeeder extends Seeder
                 'code' => '321215201' . $i,
                 'district_code' => '321215',
                 'city_code' => '3212',
+                'url' => 'sipodes.com',
             ]);
         }
 
@@ -59,6 +64,7 @@ class DesaSeeder extends Seeder
             'code' => '3212152020',
             'district_code' => '321215',
             'city_code' => '3212',
+            'url' => 'sipodes.com',
         ]);
     }
 }

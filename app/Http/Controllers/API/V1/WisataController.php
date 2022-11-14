@@ -12,7 +12,8 @@ class WisataController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::with('desa')->get()));
+        // return response()->json(Wisata::where('code_desa', 3209372008)->orderBy('id', 'DESC')->get());
+        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::orderBy('id', 'DESC')->get()));
     }
 
     public function show($codeDesa, $wisataId)
@@ -60,7 +61,6 @@ class WisataController extends Controller
     public function update($codeDesa, $wisataId)
     {
         $validator = Validator::make(request()->all(), [
-            'wisata_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
@@ -69,17 +69,16 @@ class WisataController extends Controller
             'price' => 'required|max:255',
         ]);
 
-        if (!$validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(new ApiResource(400, false, $validator->errors), 400);
         }
 
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->get();
-        if ($wisata) {
+        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
+        if (!$wisata) {
             return response()->json('Data tidak ditemukan', 404);
         }
         try {
             $wisata->update([
-                'wisata_id' => request('wisata_id'),
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),

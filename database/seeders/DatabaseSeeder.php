@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DesaSeeder::class,
-            // WisataSeeder::class,
+            WisataSeeder::class,
             ProvincesSeeder::class,
             CitiesSeeder::class,
             DistrictsSeeder::class,

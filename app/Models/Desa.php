@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Laravolt\Indonesia\Models\Village;
+use Laravolt\Indonesia\Models\{Village, District};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +11,7 @@ class Desa extends Model
     use HasFactory;
 
     protected $table = 'desa';
-    protected $fillable = ['code', 'name', 'district_code', 'city_code'];
+    protected $fillable = ['code', 'url', 'description', 'district_code', 'city_code'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function desa()
@@ -22,5 +22,10 @@ class Desa extends Model
     public function wisata()
     {
         return $this->hasMany(Wisata::class, 'code_desa', 'code');
+    }
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
     }
 }

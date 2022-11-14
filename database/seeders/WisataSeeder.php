@@ -18,14 +18,17 @@ class WisataSeeder extends Seeder
         $code = ['321215100', '320937200', '320631200'];
         $faker = Factory::create('id_ID');
         for($i = 1; $i < 50; $i++) {
+            $codeDesa = $code[array_rand($code)] . rand(1,8);
+            $lastWisataId = Wisata::where('code_desa', $codeDesa)->orderBy('id', 'DESC')->first()->wisata_id ?? 0;
             Wisata::create([
-                'code_desa' => $code[array_rand($code)] . rand(1,8),
+                'wisata_id' => $lastWisataId + 1,
+                'code_desa' => $codeDesa,
                 'name' => $faker->name,
                 'location' => $faker->name,
                 'meta_description' => $faker->sentence,
                 'meta_keyword' => $faker->name,
-                'longtitude' => $faker->randomDigitNotNull(),
-                'latitude' => $faker->randomDigitNotNull(),
+                'longtitude' => '-6.6897378',
+                'latitude' => '108.4127686',
                 'price' => rand(10000, 50000),
                 'description' => $faker->paragraph(),
             ]);

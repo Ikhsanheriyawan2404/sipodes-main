@@ -15,7 +15,8 @@ class CreateDesaTable extends Migration
     {
         Schema::create('desa', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('code', 10);
+            $table->char('code', 10)->unique();
+            $table->string('url');
             $table->char('district_code', 7);
             $table->char('city_code', 4);
             $table->text('description')->nullable();
