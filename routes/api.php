@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::prefix('v1')->group(function () {
+    // Route::delete('wisata/{id}', [WisataController::class, 'destroy']);
     Route::apiResource('wisata', WisataController::class);
 
     Route::get('desa', [DesaController::class, 'index']);

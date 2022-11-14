@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\{Wisata, Desa};
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WisataRequest;
 use Illuminate\Support\Facades\Validator;
 
 class WisataController extends Controller
@@ -19,6 +18,7 @@ class WisataController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'code_desa' => 'required',
+            'wisata_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
@@ -34,6 +34,7 @@ class WisataController extends Controller
         try {
             Wisata::create([
                 'code_desa' => request('code_desa'),
+                'wisata_id' => request('wisata_id'),
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
@@ -61,7 +62,7 @@ class WisataController extends Controller
             'price' => 'required|max:255',
         ]);
 
-        if (!$validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(new ApiResource(400, false, $validator->errors), 400);
         }
 
@@ -84,11 +85,11 @@ class WisataController extends Controller
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
-        $wisata = Wisata::find($id);
         try {
-            $wisata->delete();
+            $wisata = Wisata::where('wisata_id', $id)->first();
+            $wisata->where('code_desa', $wisata->code_desa)->delete();
             return response()->json('Data wisata pusat berhasil dihapus', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
