@@ -18,7 +18,6 @@ class CreateWisataTable extends Migration
             $table->char('code_desa', 10);
             $table->unsignedBigInteger('wisata_id');
             $table->string('name');
-            $table->string('slug');
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();
             $table->string('location');

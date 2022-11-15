@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use Illuminate\Support\Str;
 use App\Models\{Wisata, Desa};
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
@@ -42,7 +41,6 @@ class WisataController extends Controller
                 'code_desa' => request('code_desa'),
                 'wisata_id' => request('wisata_id'),
                 'name' => request('name'),
-                'slug' => Str::slug(request('name')),
                 'description' => request('description'),
                 'location' => request('location'),
                 'price' => request('price'),

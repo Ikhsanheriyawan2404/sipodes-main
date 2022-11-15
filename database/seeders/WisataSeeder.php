@@ -26,7 +26,6 @@ class WisataSeeder extends Seeder
                 'wisata_id' => $lastWisataId + 1,
                 'code_desa' => $codeDesa,
                 'name' => $faker->name,
-                'slug' => Str::slug($name),
                 'location' => $faker->name,
                 'meta_description' => $faker->sentence,
                 'meta_keyword' => $faker->name,
