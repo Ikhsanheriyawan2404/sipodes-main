@@ -10,7 +10,8 @@ class Wisata extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['code_desa', 'wisata_id', 'name', 'slug', 'meta_description', 'meta_keyword', 'thumbnail', 'location', 'price', 'description', 'latitude', 'longtitude'];
+
     protected $table = 'wisata';
 
     public function desa()

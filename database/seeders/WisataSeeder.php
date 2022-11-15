@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Wisata;
 use Faker\Factory;
+use App\Models\Wisata;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class WisataSeeder extends Seeder
@@ -20,10 +21,12 @@ class WisataSeeder extends Seeder
         for($i = 1; $i < 50; $i++) {
             $codeDesa = $code[array_rand($code)] . rand(1,8);
             $lastWisataId = Wisata::where('code_desa', $codeDesa)->orderBy('id', 'DESC')->first()->wisata_id ?? 0;
+            $name = $faker->name;
             Wisata::create([
                 'wisata_id' => $lastWisataId + 1,
                 'code_desa' => $codeDesa,
                 'name' => $faker->name,
+                'slug' => Str::slug($name),
                 'location' => $faker->name,
                 'meta_description' => $faker->sentence,
                 'meta_keyword' => $faker->name,

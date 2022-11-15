@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use Illuminate\Support\Str;
 use App\Models\{Wisata, Desa};
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WisataRequest;
 use Illuminate\Support\Facades\Validator;
 
 class WisataController extends Controller
 {
     public function index()
     {
-        // return response()->json(Wisata::where('code_desa', 3209372008)->orderBy('id', 'DESC')->get());
         return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::orderBy('id', 'DESC')->get()));
     }
 
     public function show($codeDesa, $wisataId)
     {
-        return response()->json(new ApiResource(200, true, 'Detail Wisata', Wisata::where('code_desa', $codeDesa)->where('wisata_id', $desaId)->get()), 200);
+        return response()->json(new ApiResource(200, true, 'Detail Wisata', Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->get()), 200);
     }
 
     public function store()
@@ -43,6 +42,7 @@ class WisataController extends Controller
                 'code_desa' => request('code_desa'),
                 'wisata_id' => request('wisata_id'),
                 'name' => request('name'),
+                'slug' => Str::slug(request('name')),
                 'description' => request('description'),
                 'location' => request('location'),
                 'price' => request('price'),
@@ -51,7 +51,7 @@ class WisataController extends Controller
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
             ]);
-            
+
             return response()->json(new ApiResource(201, true, 'Data wisata pusat berhasil ditambahkan'), 201);
         } catch (\Exception $e) {
             return response()->json(new ApiResource(400, false, $e->getMessage()), 400);
