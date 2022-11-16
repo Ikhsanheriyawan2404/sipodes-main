@@ -19,6 +19,8 @@ Route::prefix('v1')->group(function () {
         Route::delete('wisata/{codeDesa}/{wisataId}', [WisataController::class, 'destroy']);
 
         Route::get('desa', [DesaController::class, 'index']);
+        Route::get('desa/{code}', [DesaController::class, 'show']);
         Route::post('desa', [DesaController::class, 'store']);
+        Route::put('desa/{code}', [DesaController::class, 'update']);
     });
 });

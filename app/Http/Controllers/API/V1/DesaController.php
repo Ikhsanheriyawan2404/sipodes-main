@@ -11,7 +11,16 @@ class DesaController extends Controller
 {
     public function index()
     {
-        return response()->json(Desa::with('desa', 'kecamatan', 'wisata')->get(), 200);
+        return response()->json(new ApiResource(200, true, 'Detail Desa', Desa::with('desa', 'kecamatan')->get()), 200);
+    }
+
+    public function show($code)
+    {
+        $desa = Desa::with('desa', 'wisata')->where('code', $code)->first();
+        if (!$desa) {
+            return response()->json(new ApiResource(404, false, 'Data tidak ditemukan'), 404);
+        }
+        return response()->json(new ApiResource(200, true, 'Detail Desa', $desa), 200);
     }
 
     public function store()
@@ -35,9 +44,36 @@ class DesaController extends Controller
                 'url' => request('url'),
                 'description' => request('description'),
             ]);
+            return response()->json(new ApiResource(200, true, 'Berhasil menambahakan desa', $data), 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
-        return response()->json('Masuk', 200);
+
+    }
+
+    public function update($code)
+    {
+        $desa = Desa::where('code', $code)->first();
+        if (!$desa) {
+            return response()->json(new ApiResource(404, false, 'Data tidak ditemukan'), 404);
+        }
+
+        $validator = Validator::make(request()->all(), [
+            'url' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(new ApiResource(400, false, $validator->errors()), 400);
+        }
+
+        try {
+            $desa->update([
+                'url' => request('url'),
+                'description' => request('description'),
+            ]);
+            return response()->json(new ApiResource(200, true, 'Berhasil update desa', $desa), 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 400);
+        }
     }
 }
