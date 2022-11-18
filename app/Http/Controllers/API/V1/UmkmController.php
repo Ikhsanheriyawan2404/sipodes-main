@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Wisata, Desa};
+use App\Models\Umkm;
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class WisataController extends Controller
+class UmkmController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::latest()->get()));
+        return response()->json(new ApiResource(200, true, 'Data Umkm', Umkm::latest()->get()));
     }
 
-    public function show($codeDesa, $wisataId)
+    public function show($codeDesa, $umkmId)
     {
-        return response()->json(new ApiResource(200, true, 'Detail Wisata', Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->get()), 200);
+        return response()->json(new ApiResource(200, true, 'Detail Umkm', Umkm::where('code_desa', $codeDesa)->where('umkm_id', $umkmId)->get()), 200);
     }
 
     public function store()
     {
         $validator = Validator::make(request()->all(), [
             'code_desa' => 'required',
-            'wisata_id' => 'required',
+            'umkm_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_umkm' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -37,69 +36,66 @@ class WisataController extends Controller
         }
 
         try {
-            Wisata::create([
+            Umkm::create([
                 'code_desa' => request('code_desa'),
-                'wisata_id' => request('wisata_id'),
+                'umkm_id' => request('umkm_id'),
                 'name' => request('name'),
                 'description' => request('description'),
+                'contact' => request('contact'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_umkm' => request('type_umkm'),
             ]);
 
-            return response()->json(new ApiResource(201, true, 'Data wisata pusat berhasil ditambahkan'), 201);
+            return response()->json(new ApiResource(201, true, 'Data umkm pusat berhasil ditambahkan'), 201);
         } catch (\Exception $e) {
             return response()->json(new ApiResource(400, false, $e->getMessage()), 400);
         }
     }
 
-    public function update($codeDesa, $wisataId)
+    public function update($codeDesa, $umkmId)
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_umkm' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
             return response()->json(new ApiResource(400, false, $validator->errors), 400);
         }
 
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
+        $umkm = Umkm::where('code_desa', $codeDesa)->where('umkm_id', $umkmId)->first();
+        if (!$umkm) {
             return response()->json('Data tidak ditemukan', 404);
         }
         try {
-            $wisata->update([
+            $umkm->update([
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
+                'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_umkm' => request('type_umkm'),
             ]);
-            return response()->json('Data wisata pusat berhasil diedit', 200);
+            return response()->json('Data umkm pusat berhasil diedit', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
     }
 
-    public function destroy($codeDesa, $wisataId)
+    public function destroy($codeDesa, $umkmId)
     {
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
-            return response()->json('Berhasil tidak ditemukan', 404);
+        $umkm = Umkm::where('code_desa', $codeDesa)->where('umkm_id', $umkmId)->first();
+        if (!$umkm) {
+            return response()->json('Data tidak ditemukan', 404);
         }
         try {
-            $wisata->delete();
+            $umkm->delete();
             return response()->json('Berhasil hapus data dari pusat', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);

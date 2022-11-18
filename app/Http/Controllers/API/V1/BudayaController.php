@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Wisata, Desa};
+use App\Models\Budaya;
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class WisataController extends Controller
+class BudayaController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::latest()->get()));
+        return response()->json(new ApiResource(200, true, 'Data Budaya', Budaya::latest()->get()));
     }
 
-    public function show($codeDesa, $wisataId)
+    public function show($codeDesa, $budayaId)
     {
-        return response()->json(new ApiResource(200, true, 'Detail Wisata', Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->get()), 200);
+        return response()->json(new ApiResource(200, true, 'Detail Budaya', Budaya::where('code_desa', $codeDesa)->where('budaya_id', $budayaId)->get()), 200);
     }
 
     public function store()
     {
         $validator = Validator::make(request()->all(), [
             'code_desa' => 'required',
-            'wisata_id' => 'required',
+            'budaya_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'figure' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_budaya' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -37,69 +37,69 @@ class WisataController extends Controller
         }
 
         try {
-            Wisata::create([
+            Budaya::create([
                 'code_desa' => request('code_desa'),
-                'wisata_id' => request('wisata_id'),
+                'budaya_id' => request('budaya_id'),
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
+                'figure' => request('figure'),
+                'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_budaya' => request('type_budaya'),
             ]);
 
-            return response()->json(new ApiResource(201, true, 'Data wisata pusat berhasil ditambahkan'), 201);
+            return response()->json(new ApiResource(201, true, 'Data Budaya pusat berhasil ditambahkan'), 201);
         } catch (\Exception $e) {
             return response()->json(new ApiResource(400, false, $e->getMessage()), 400);
         }
     }
 
-    public function update($codeDesa, $wisataId)
+    public function update($codeDesa, $budayaId)
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'figure' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_budaya' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
             return response()->json(new ApiResource(400, false, $validator->errors), 400);
         }
 
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
+        $budaya = Budaya::where('code_desa', $codeDesa)->where('budaya_id', $budayaId)->first();
+        if (!$budaya) {
             return response()->json('Data tidak ditemukan', 404);
         }
         try {
-            $wisata->update([
+            $budaya->update([
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
+                'figure' => request('figure'),
+                'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_budaya' => request('type_budaya'),
             ]);
-            return response()->json('Data wisata pusat berhasil diedit', 200);
+            return response()->json('Data budaya pusat berhasil diedit', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
     }
 
-    public function destroy($codeDesa, $wisataId)
+    public function destroy($codeDesa, $budayaId)
     {
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
-            return response()->json('Berhasil tidak ditemukan', 404);
+        $budaya = Budaya::where('code_desa', $codeDesa)->where('budaya_id', $budayaId)->first();
+        if (!$budaya) {
+            return response()->json('Data tidak ditemukan', 404);
         }
         try {
-            $wisata->delete();
+            $budaya->delete();
             return response()->json('Berhasil hapus data dari pusat', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);

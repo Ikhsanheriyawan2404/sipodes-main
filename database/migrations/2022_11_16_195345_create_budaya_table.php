@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWisataTable extends Migration
+class CreateBudayaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateWisataTable extends Migration
      */
     public function up()
     {
-        Schema::create('wisata', function (Blueprint $table) {
+        Schema::create('budaya', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->char('code_desa', 10);
-            $table->unsignedBigInteger('wisata_id');
-            $table->string('name');
+            $table->unsignedBigInteger('budaya_id');
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();
+            $table->string('name');
             $table->string('location');
-            $table->string('price');
+            $table->string('figure');
+            $table->string('contact');
+            $table->string('type_budaya');
             $table->text('description');
-            $table->float('latitude',15,10);
-            $table->float('longtitude',15,10);
             $table->timestamps();
         });
     }
@@ -36,6 +36,6 @@ class CreateWisataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wisata');
+        Schema::dropIfExists('budayas');
     }
 }

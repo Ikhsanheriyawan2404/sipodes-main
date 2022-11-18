@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Wisata, Desa};
+use App\Models\ProduksiPangan;
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class WisataController extends Controller
+class ProduksiPanganController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::latest()->get()));
+        return response()->json(new ApiResource(200, true, 'Data Produksi Pangan', ProduksiPangan::latest()->get()));
     }
 
-    public function show($codeDesa, $wisataId)
+    public function show($codeDesa, $produksiPanganId)
     {
-        return response()->json(new ApiResource(200, true, 'Detail Wisata', Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->get()), 200);
+        return response()->json(new ApiResource(200, true, 'Detail produksi_pangan', ProduksiPangan::where('code_desa', $codeDesa)->where('produksi_pangan_id', $produksiPanganId)->get()), 200);
     }
 
     public function store()
     {
         $validator = Validator::make(request()->all(), [
             'code_desa' => 'required',
-            'wisata_id' => 'required',
+            'produksi_pangan_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_produksi_pangan' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -37,69 +36,66 @@ class WisataController extends Controller
         }
 
         try {
-            Wisata::create([
+            ProduksiPangan::create([
                 'code_desa' => request('code_desa'),
-                'wisata_id' => request('wisata_id'),
+                'produksi_pangan_id' => request('produksi_pangan_id'),
                 'name' => request('name'),
                 'description' => request('description'),
+                'contact' => request('contact'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_produksi_pangan' => request('type_produksi_pangan'),
             ]);
 
-            return response()->json(new ApiResource(201, true, 'Data wisata pusat berhasil ditambahkan'), 201);
+            return response()->json(new ApiResource(201, true, 'Data Produksi Pangan pusat berhasil ditambahkan'), 201);
         } catch (\Exception $e) {
             return response()->json(new ApiResource(400, false, $e->getMessage()), 400);
         }
     }
 
-    public function update($codeDesa, $wisataId)
+    public function update($codeDesa, $produksiPanganId)
     {
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
-            'price' => 'required|max:255',
+            'contact' => 'required|max:255',
+            'type_produksi_pangan' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
             return response()->json(new ApiResource(400, false, $validator->errors), 400);
         }
 
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
+        $produksi_pangan = ProduksiPangan::where('code_desa', $codeDesa)->where('produksi_pangan_id', $produksiPanganId)->first();
+        if (!$produksi_pangan) {
             return response()->json('Data tidak ditemukan', 404);
         }
         try {
-            $wisata->update([
+            $produksi_pangan->update([
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'price' => request('price'),
-                'longtitude' => request('longtitude'),
-                'latitude' => request('latitude'),
+                'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_produksi_pangan' => request('type_produksi_pangan'),
             ]);
-            return response()->json('Data wisata pusat berhasil diedit', 200);
+            return response()->json('Data produksi pangan pusat berhasil diedit', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
     }
 
-    public function destroy($codeDesa, $wisataId)
+    public function destroy($codeDesa, $produksiPanganId)
     {
-        $wisata = Wisata::where('code_desa', $codeDesa)->where('wisata_id', $wisataId)->first();
-        if (!$wisata) {
+        $produksi_pangan = ProduksiPangan::where('code_desa', $codeDesa)->where('produksi_pangan_id', $produksiPanganId)->first();
+        if (!$produksi_pangan) {
             return response()->json('Berhasil tidak ditemukan', 404);
         }
         try {
-            $wisata->delete();
+            $produksi_pangan->delete();
             return response()->json('Berhasil hapus data dari pusat', 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 400);
