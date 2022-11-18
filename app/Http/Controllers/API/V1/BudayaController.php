@@ -29,7 +29,7 @@ class BudayaController extends Controller
             'location' => 'required|max:255',
             'figure' => 'required|max:255',
             'contact' => 'required|max:255',
-            'tipe_budaya' => 'required|max:255',
+            'type_budaya' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
