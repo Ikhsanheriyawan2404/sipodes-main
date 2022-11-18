@@ -28,6 +28,7 @@ class ProduksiPanganController extends Controller
             'description' => 'required',
             'location' => 'required|max:255',
             'contact' => 'required|max:255',
+            'type_produksi_pangan' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +45,7 @@ class ProduksiPanganController extends Controller
                 'location' => request('location'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_produksi_pangan' => request('type_produksi_pangan'),
             ]);
 
             return response()->json(new ApiResource(201, true, 'Data Produksi Pangan pusat berhasil ditambahkan'), 201);
@@ -59,6 +61,7 @@ class ProduksiPanganController extends Controller
             'description' => 'required',
             'location' => 'required|max:255',
             'contact' => 'required|max:255',
+            'type_produksi_pangan' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -77,6 +80,7 @@ class ProduksiPanganController extends Controller
                 'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_produksi_pangan' => request('type_produksi_pangan'),
             ]);
             return response()->json('Data produksi pangan pusat berhasil diedit', 200);
         } catch (\Exception $e) {

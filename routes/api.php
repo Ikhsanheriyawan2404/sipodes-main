@@ -25,10 +25,10 @@ Route::prefix('v1')->group(function () {
         Route::delete('budaya/{codeDesa}/{budayaId}', [BudayaController::class, 'destroy']);
 
         // Produksi Pangan
-        Route::apiResource('produksiPangan', ProduksiPanganController::class)->only('index', 'store');
-        Route::get('produksiPangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'show']);
-        Route::put('produksiPangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'update']);
-        Route::delete('produksiPangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'destroy']);
+        Route::apiResource('produksi-pangan', ProduksiPanganController::class)->only('index', 'store');
+        Route::get('produksi-pangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'show']);
+        Route::put('produksi-pangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'update']);
+        Route::delete('produksi-pangan/{codeDesa}/{produksiPanganId}', [ProduksiPanganController::class, 'destroy']);
 
         // Desa
         Route::get('desa', [DesaController::class, 'index']);

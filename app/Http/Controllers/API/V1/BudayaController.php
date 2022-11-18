@@ -29,6 +29,7 @@ class BudayaController extends Controller
             'location' => 'required|max:255',
             'figure' => 'required|max:255',
             'contact' => 'required|max:255',
+            'tipe_budaya' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -36,17 +37,17 @@ class BudayaController extends Controller
         }
 
         try {
-            Budaya::reate([
+            Budaya::create([
                 'code_desa' => request('code_desa'),
-                'wisata_id' => request('wisata_id'),
+                'budaya_id' => request('budaya_id'),
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'price' => request('price'),
                 'figure' => request('figure'),
                 'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_budaya' => request('type_budaya'),
             ]);
 
             return response()->json(new ApiResource(201, true, 'Data Budaya pusat berhasil ditambahkan'), 201);
@@ -63,6 +64,7 @@ class BudayaController extends Controller
             'location' => 'required|max:255',
             'figure' => 'required|max:255',
             'contact' => 'required|max:255',
+            'type_budaya' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -78,10 +80,11 @@ class BudayaController extends Controller
                 'name' => request('name'),
                 'description' => request('description'),
                 'location' => request('location'),
-                'figure' => 'required|max:255',
-                'contact' => 'required|max:255',
+                'figure' => request('figure'),
+                'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_budaya' => request('type_budaya'),
             ]);
             return response()->json('Data budaya pusat berhasil diedit', 200);
         } catch (\Exception $e) {

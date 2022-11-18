@@ -28,6 +28,7 @@ class UmkmController extends Controller
             'description' => 'required',
             'location' => 'required|max:255',
             'contact' => 'required|max:255',
+            'type_umkm' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +45,7 @@ class UmkmController extends Controller
                 'location' => request('location'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_umkm' => request('type_umkm'),
             ]);
 
             return response()->json(new ApiResource(201, true, 'Data umkm pusat berhasil ditambahkan'), 201);
@@ -59,6 +61,7 @@ class UmkmController extends Controller
             'description' => 'required',
             'location' => 'required|max:255',
             'contact' => 'required|max:255',
+            'type_umkm' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -77,6 +80,7 @@ class UmkmController extends Controller
                 'contact' => request('contact'),
                 'meta_description' => request('meta_description'),
                 'meta_keyword' => request('meta_keyword'),
+                'type_umkm' => request('type_umkm'),
             ]);
             return response()->json('Data umkm pusat berhasil diedit', 200);
         } catch (\Exception $e) {
@@ -88,7 +92,7 @@ class UmkmController extends Controller
     {
         $umkm = Umkm::where('code_desa', $codeDesa)->where('umkm_id', $umkmId)->first();
         if (!$umkm) {
-            return response()->json('Berhasil tidak ditemukan', 404);
+            return response()->json('Data tidak ditemukan', 404);
         }
         try {
             $umkm->delete();
