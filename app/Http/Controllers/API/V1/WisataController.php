@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Wisata, Desa};
+use App\Models\{Wisata};
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -27,8 +27,8 @@ class WisataController extends Controller
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
+            'longtitude' => 'required',
+            'latitude' => 'required',
             'price' => 'required|max:255',
         ]);
 
@@ -62,8 +62,8 @@ class WisataController extends Controller
             'name' => 'required|max:255',
             'description' => 'required',
             'location' => 'required|max:255',
-            'longtitude' => 'required|max:10',
-            'latitude' => 'required|max:10',
+            'longtitude' => 'required',
+            'latitude' => 'required',
             'price' => 'required|max:255',
         ]);
 
