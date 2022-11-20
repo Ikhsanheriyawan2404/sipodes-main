@@ -11,7 +11,8 @@ class WisataController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::latest()->get()));
+        $query = request('name');
+        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::where('name', 'like', "%$query%")->with('desa')->latest()->get(['name', 'code_desa', 'description', 'location'])));
     }
 
     public function show($codeDesa, $wisataId)

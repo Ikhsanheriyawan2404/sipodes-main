@@ -11,7 +11,8 @@ class ProduksiPanganController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Produksi Pangan', ProduksiPangan::latest()->get()));
+        $query = request('name');
+        return response()->json(new ApiResource(200, true, 'Data Produksi Pangan', ProduksiPangan::where('name', 'like', "%$query%")->with('desa')->latest()->get()));
     }
 
     public function show($codeDesa, $produksiPanganId)

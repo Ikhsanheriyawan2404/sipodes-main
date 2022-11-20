@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\URL;
+use App\Models\Desa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,4 +16,9 @@ class Umkm extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class, 'code_desa', 'code');
+    }
 }
