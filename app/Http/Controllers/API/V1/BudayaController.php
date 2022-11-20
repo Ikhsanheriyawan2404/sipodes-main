@@ -11,7 +11,8 @@ class BudayaController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Budaya', Budaya::latest()->get()));
+        $query = request('name');
+        return response()->json(new ApiResource(200, true, 'Data Budaya', Budaya::where('name', 'like', "%$query%")->latest()->get()));
     }
 
     public function show($codeDesa, $budayaId)

@@ -11,7 +11,8 @@ class UmkmController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Data Umkm', Umkm::latest()->get()));
+        $query = request('name');
+        return response()->json(new ApiResource(200, true, 'Data Umkm', Umkm::where('name', 'like', "%$query%")->with('desa')->latest()->get()));
     }
 
     public function show($codeDesa, $umkmId)

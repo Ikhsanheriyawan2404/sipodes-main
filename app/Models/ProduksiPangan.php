@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Desa;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProduksiPangan extends Model
 {
     use HasFactory;
-
 
     protected $fillable = ['code_desa', 'produksi_pangan_id', 'location', 'contact','name', 'meta_description', 'type_produksi_pangan','meta_keyword', 'description'];
     protected $table = 'produksi_pangan';
@@ -16,4 +16,9 @@ class ProduksiPangan extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class, 'code_desa', 'code');
+    }
 }

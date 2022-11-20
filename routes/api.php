@@ -1,10 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\V1\{BudayaController, UmkmController, DesaController, WisataController, ProduksiPanganController};
+use App\Http\Controllers\API\V1\{BudayaController, UmkmController, DesaController, GeneralController, WisataController, ProduksiPanganController};
 
 Route::prefix('v1')->group(function () {
     Route::middleware('apikey')->group(function () {
+
+        // List All Potentional
+        Route::get('potensi', [GeneralController::class, 'getAllPotention']);
+        Route::get('count', [GeneralController::class, 'count']);
 
         // Wisata
         Route::apiResource('wisata', WisataController::class)->only('index', 'store');

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Laravolt\Indonesia\Models\Village;
+use App\Models\Desa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,6 +16,6 @@ class Wisata extends Model
 
     public function desa()
     {
-        return $this->belongsTo(Village::class, 'code_desa', 'code');
+        return $this->belongsTo(Desa::class, 'code_desa', 'code');
     }
 }

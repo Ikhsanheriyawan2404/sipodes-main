@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\ApiKey;
 use Illuminate\Database\Seeder;
 use Laravolt\Indonesia\Seeds\CitiesSeeder;
 use Laravolt\Indonesia\Seeds\VillagesSeeder;
@@ -22,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ApiKeySeeder::class,
             DesaSeeder::class,
             WisataSeeder::class,
+            UmkmSeeder::class,
             ProvincesSeeder::class,
             CitiesSeeder::class,
             DistrictsSeeder::class,
