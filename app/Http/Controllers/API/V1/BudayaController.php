@@ -12,7 +12,7 @@ class BudayaController extends Controller
     public function index()
     {
         $query = request('name');
-        return response()->json(new ApiResource(200, true, 'Data Budaya', Budaya::where('name', 'like', "%$query%")->latest()->get()));
+        return response()->json(Budaya::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->paginate(10, ['name', 'code_desa']));
     }
 
     public function show($codeDesa, $budayaId)
@@ -27,7 +27,7 @@ class BudayaController extends Controller
             'budaya_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'figure' => 'required|max:255',
             'contact' => 'required|max:255',
             'type_budaya' => 'required|max:255',
@@ -62,7 +62,7 @@ class BudayaController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'figure' => 'required|max:255',
             'contact' => 'required|max:255',
             'type_budaya' => 'required|max:255',

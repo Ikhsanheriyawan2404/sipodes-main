@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Laravolt\Indonesia\Models\{Village, District};
+use Laravolt\Indonesia\Models\{City, Village, District};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,5 +27,10 @@ class Desa extends Model
     public function kecamatan()
     {
         return $this->belongsTo(District::class, 'district_code', 'code');
+    }
+
+    public function kabupaten()
+    {
+        return $this->belongsTo(City::class, 'city_code', 'code');
     }
 }

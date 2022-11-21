@@ -20,7 +20,7 @@ class CreateWisataTable extends Migration
             $table->string('name');
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();
-            $table->string('location');
+            $table->text('location');
             $table->string('price');
             $table->text('description');
             $table->float('latitude',15,10);

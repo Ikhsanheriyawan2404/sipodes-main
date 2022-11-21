@@ -8,7 +8,7 @@ Route::prefix('v1')->group(function () {
 
         // List All Potentional
         Route::get('potensi', [GeneralController::class, 'getAllPotention']);
-        Route::get('count', [GeneralController::class, 'count']);
+        Route::get('count-data', [GeneralController::class, 'count']);
 
         // Wisata
         Route::apiResource('wisata', WisataController::class)->only('index', 'store');

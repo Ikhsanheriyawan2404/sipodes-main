@@ -12,7 +12,7 @@ class WisataController extends Controller
     public function index()
     {
         $query = request('name');
-        return response()->json(new ApiResource(200, true, 'Data Wisata', Wisata::where('name', 'like', "%$query%")->with('desa')->latest()->get(['name', 'code_desa', 'description', 'location'])));
+        return response()->json(Wisata::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->paginate(10, ['name', 'code_desa']));
     }
 
     public function show($codeDesa, $wisataId)
@@ -27,7 +27,7 @@ class WisataController extends Controller
             'wisata_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'longtitude' => 'required',
             'latitude' => 'required',
             'price' => 'required|max:255',
@@ -62,7 +62,7 @@ class WisataController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'longtitude' => 'required',
             'latitude' => 'required',
             'price' => 'required|max:255',

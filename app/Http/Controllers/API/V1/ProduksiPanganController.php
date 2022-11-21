@@ -12,7 +12,7 @@ class ProduksiPanganController extends Controller
     public function index()
     {
         $query = request('name');
-        return response()->json(new ApiResource(200, true, 'Data Produksi Pangan', ProduksiPangan::where('name', 'like', "%$query%")->with('desa')->latest()->get()));
+        return response()->json(ProduksiPangan::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->paginate(10, ['name', 'code_desa']));
     }
 
     public function show($codeDesa, $produksiPanganId)
@@ -27,7 +27,7 @@ class ProduksiPanganController extends Controller
             'produksi_pangan_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'contact' => 'required|max:255',
             'type_produksi_pangan' => 'required|max:255',
         ]);
@@ -60,7 +60,7 @@ class ProduksiPanganController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'contact' => 'required|max:255',
             'type_produksi_pangan' => 'required|max:255',
         ]);
