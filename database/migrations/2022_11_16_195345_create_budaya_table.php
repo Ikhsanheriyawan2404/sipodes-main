@@ -20,7 +20,7 @@ class CreateBudayaTable extends Migration
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();
             $table->string('name');
-            $table->string('location');
+            $table->text('location');
             $table->string('figure');
             $table->string('contact');
             $table->string('type_budaya');

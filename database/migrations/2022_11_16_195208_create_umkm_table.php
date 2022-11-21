@@ -20,7 +20,7 @@ class CreateUmkmTable extends Migration
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();
             $table->string('name');
-            $table->string('location');
+            $table->text('location');
             $table->string('type_umkm');
             $table->string('contact');
             $table->text('description');

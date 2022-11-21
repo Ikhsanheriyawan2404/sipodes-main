@@ -12,7 +12,7 @@ class UmkmController extends Controller
     public function index()
     {
         $query = request('name');
-        return response()->json(new ApiResource(200, true, 'Data Umkm', Umkm::where('name', 'like', "%$query%")->with('desa')->latest()->get()));
+        return response()->json(Umkm::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->paginate(10, ['name', 'code_desa']));
     }
 
     public function show($codeDesa, $umkmId)
@@ -27,7 +27,7 @@ class UmkmController extends Controller
             'umkm_id' => 'required',
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'contact' => 'required|max:255',
             'type_umkm' => 'required|max:255',
         ]);
@@ -60,7 +60,7 @@ class UmkmController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255',
             'description' => 'required',
-            'location' => 'required|max:255',
+            'location' => 'required',
             'contact' => 'required|max:255',
             'type_umkm' => 'required|max:255',
         ]);

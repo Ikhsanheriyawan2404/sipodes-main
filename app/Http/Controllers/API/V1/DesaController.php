@@ -11,7 +11,7 @@ class DesaController extends Controller
 {
     public function index()
     {
-        return response()->json(new ApiResource(200, true, 'Detail Desa', Desa::with('desa', 'kecamatan')->get()), 200);
+        return response()->json(Desa::with('desa', 'kecamatan', 'kabupaten')->latest()->paginate(10, ['code', 'url', 'district_code', 'city_code']), 200);
     }
 
     public function show($code)
