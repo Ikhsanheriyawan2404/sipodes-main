@@ -5,8 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use Illuminate\Support\Collection;
 use App\Http\Resources\ApiResource;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\{Paginator, LengthAwarePaginator};
 use App\Models\{Umkm, Budaya, Desa, Wisata, ProduksiPangan};
 
 class GeneralController extends Controller
@@ -14,18 +13,31 @@ class GeneralController extends Controller
     public function getAllPotention()
     {
         $query = request('name');
-        $wisata = Wisata::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->get(['name', 'code_desa']);
-        $umkm = Umkm::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->get(['name', 'code_desa']);
-        $produksi_pangan = ProduksiPangan::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->get(['name', 'code_desa']);
-        $budaya = Budaya::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->get(['name', 'code_desa', 'location']);
+        $wisata = Wisata::where('name', 'like', "%$query%")
+            ->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')
+            ->latest()
+            ->get(['name', 'code_desa']);
+        $umkm = Umkm::where('name', 'like', "%$query%")
+            ->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')
+            ->latest()
+            ->get(['name', 'code_desa']);
+        $produksiPangan = ProduksiPangan::where('name', 'like', "%$query%")
+            ->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')
+            ->latest()
+            ->get(['name', 'code_desa']);
+        $budaya = Budaya::where('name', 'like', "%$query%")
+            ->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')
+            ->latest()
+            ->get(['name', 'code_desa', 'location']);
 
-        $collection = collect([$wisata, $umkm, $produksi_pangan, $budaya]);
+        $collection = collect([$wisata, $umkm, $produksiPangan, $budaya]);
         $array = $collection->collapse();
 
         //Getting current request link
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
+        ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-        $data = $this->paginate($array, 10, request('page'), ['path' => $actual_link]);
+        $data = $this->paginate($array, 10, request('page'), ['path' => $actualLink]);
         return response()->json($data, 200);
     }
 
@@ -39,15 +51,19 @@ class GeneralController extends Controller
             'total_desa' => Desa::count(),
         ];
 
-        return response()->json(new ApiResource(200, true, 'Jumlah Seluruh Data', $data),200);
+        return response()->json(new ApiResource(200, true, 'Jumlah Seluruh Data', $data), 200);
     }
 
     public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-
         $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator($items->forPage($page, $perPage)->values(), $items->count(), $perPage, $page, $options);
+        return new LengthAwarePaginator(
+            $items->forPage($page, $perPage),
+            $items->count(),
+            $perPage,
+            $page,
+            $options
+        );
     }
 }
