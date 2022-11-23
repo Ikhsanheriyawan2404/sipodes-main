@@ -12,7 +12,12 @@ class BudayaController extends Controller
     public function index()
     {
         $query = request('name');
-        return response()->json(Budaya::where('name', 'like', "%$query%")->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')->latest()->paginate(10, ['name', 'code_desa']));
+        return response()->json(
+            Budaya::where('name', 'like', "%$query%")
+                ->with('desa.desa', 'desa.kecamatan', 'desa.kabupaten')
+                ->latest()
+                ->paginate(10, ['name', 'code_desa'])
+        );
     }
 
     public function show($codeDesa, $budayaId)
